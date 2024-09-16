@@ -27,3 +27,5 @@ dist/
 *.egg-info/
 
 sessions/
+
+models/*.pkl

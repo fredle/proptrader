@@ -10,6 +10,7 @@ from strategies.sma_strategy import SMAStrategy
 from strategies.sma_strategy_reverse import SMAStrategyReverse
 from strategies.rsi_strategy import RSIStrategy
 from ib_insync import Forex
+from ib_insync import Stock
 from chart_utils import update_chart
 from tradedistribution import plot_pnl_distribution
 from strategies.rsimacd_strategy import RSIMACDStrategy
@@ -35,7 +36,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 
     if display_chart:
         from chart_utils import initialize_chart, update_chart
-        fig, ax, prices_line, buys_scatter, sells_scatter, N = initialize_chart(1600)
+        fig, ax, prices_line, buys_scatter, sells_scatter, N = initialize_chart(400)
 
     try:
         while True:
@@ -183,6 +184,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 
                 prices.append(last_price)
 
+            
             # Update chart if needed
             if display_chart:
                 update_chart(ax, prices_line, buys_scatter, sells_scatter, prices, buys, sells, balance, N)
@@ -204,10 +206,11 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 
 
 if __name__ == "__main__":
-    contract = Forex('GBPUSD')
+    #contract = Forex('GBPUSD')
+    contract = Stock('AAPL', 'SMART', 'USD')
     order_size = 100
-    #ibkr = IBKRInterface(contract, order_size)  # Initialize broker connection
-    ibkr = HistoricalDataInterface("sampledata/MSFT_5d_1m_intraday_last_week.csv", order_size)  # Initialize broker connection
+    ibkr = IBKRInterface(contract, order_size)  # Initialize broker connection
+    #ibkr = HistoricalDataInterface("sampledata/MSFT_5d_1m_intraday_last_week.csv", order_size)  # Initialize broker connection
     #ibkr = HistoricalDataInterface("sampledata/msft_intraday_data.csv", order_size)  # Initialize broker connection
 
     #strategy = RSIMACDStrategy(data=[], rsi_period=14, overbought=70, oversold=30, macd_fast=12, macd_slow=26, macd_signal=9)
@@ -222,7 +225,7 @@ if __name__ == "__main__":
     session_file = f"sessions/trades_{timestamp}.csv"
     os.makedirs('sessions', exist_ok=True)
 
-    run_trading(strategy, ibkr, session_file, display_chart=True, logging_prices=False, logging_trades=True, stop_loss_percent=0.02, profit_taker_percent=0.08)
+    run_trading(strategy, ibkr, session_file, display_chart=True, logging_prices=True, logging_trades=True, stop_loss_percent=0.02, profit_taker_percent=0.08)
 
     # Plot P&L distribution
     plot_pnl_distribution(session_file)

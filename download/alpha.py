@@ -6,7 +6,7 @@ import time
 api_key = '0132ATU9ZE2UC4QT'
 
 # Symbol you want to get data for (e.g., MSFT)
-symbol = 'MSFT'
+symbol = 'AAPL'
 
 # URL for Alpha Vantage Intraday API
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={symbol}&interval=1min&outputsize=full&apikey={api_key}'
@@ -37,5 +37,5 @@ df = df.sort_index()
 print(df.head())
 
 # Optionally save to a CSV file
-df.to_csv('msft_intraday_data.csv')
+df.to_csv(f'sampledata/{symbol}_intraday_data.csv')
 

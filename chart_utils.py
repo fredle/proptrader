@@ -59,4 +59,4 @@ def update_chart(ax, prices_line, buys_scatter, sells_scatter, prices, buys, sel
 
     # Redraw the plot efficiently
     ax.figure.canvas.draw_idle()
-    #plt.pause(0.0001)
+    plt.pause(0.0001)
