@@ -4,15 +4,17 @@ import time
 import datetime
 
 # Your Alpha Vantage API key
-api_key = '0132ATU9ZE2UC4QT'
-
+#api_key = '0132ATU9ZE2UC4QT'
+api_key = 'OUDNF4LALFRLZI78'
 # Symbol you want to get data for (e.g., MSFT)
-symbol = 'AAPL'
+symbol = 'BTC'
 interval = "15min"
-month = "2024-08"
+month = "2024-09"
 # URL for Alpha Vantage Intraday API
-url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&month={month}&symbol={symbol}&interval={interval}&outputsize=full&apikey={api_key}'
+url = f'https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_INTRADAY&month={month}&symbol={symbol}&interval={interval}&outputsize=full&apikey={api_key}'
+#url = f"https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&from_currency={symbol}&to_currency=USD&interval={interval}&outputsize=full&apikey={api_key}"
 
+print(url)
 # Make a request to the API
 response = requests.get(url)
 data = response.json()

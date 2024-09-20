@@ -55,7 +55,7 @@ class IBKRInterface:
             'Open': bar.open,
             'High': bar.high,
             'Low': bar.low,
-            'Last Price': bar.close
+            'Close': bar.close
         } for bar in bars]
         
         print(f"Retrieved {len(ohlc_data)} historical data points.")

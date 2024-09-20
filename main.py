@@ -42,7 +42,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
         while True:
             try:
                 new_quote = ibkr.get_live_data()
-                last_price = new_quote['Last Price']
+                last_price = new_quote['Close']
             except IndexError:
                 # End of data
                 break
@@ -85,7 +85,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
                         last_trade_index = len(prices)  # Update the last trade index
 
                         if logging_trades:
-                            print(f"Stop Loss triggered. Profit/Loss: {pnl}, New Balance: {balance}")
+                            print(f"Stop Loss triggered. Profit/Loss: {pnl:.2f}, New Balance: {balance:.2f}")
 
                         current_position = None
                         stop_loss_price = None
@@ -116,7 +116,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
                         last_trade_index = len(prices)  # Update the last trade index
 
                         if logging_trades:
-                            print(f"Profit Taker triggered. Profit/Loss: {pnl}, New Balance: {balance}")
+                            print(f"Profit Taker triggered. Profit/Loss: {pnl:.2f}, New Balance: {balance:.2f}")
 
                         current_position = None
                         stop_loss_price = None
@@ -150,7 +150,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 
                     last_trade_index = len(prices)  # Update the last trade index
                     if logging_trades:
-                        print(f"BUY. last_price: {last_price}, execution_price : {execution_price}, New Balance: {balance}")
+                        print(f"BUY. last_price: {last_price:.2f}, execution_price : {execution_price:.2f}, New Balance: {balance:.2f}")
 
                 # Handle sell signal
                 elif signal == 'SELL' and current_position is not None:
@@ -176,7 +176,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
                     last_trade_index = len(prices)  # Update the last trade index
 
                     if logging_trades:
-                        print(f"SELL: last_price: {last_price}, execution_price : {execution_price}, New Balance: {balance}, Profit/Loss: {pnl}, New Balance: {balance}")
+                        print(f"SELL: last_price: {last_price:.2f}, execution_price : {execution_price:.2f}, New Balance: {balance:.2f}, Profit/Loss: {pnl:.2f}, New Balance: {balance:.2f}")
 
                     current_position = None
                     stop_loss_price = None
@@ -208,9 +208,9 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 if __name__ == "__main__":
     #contract = Forex('GBPUSD')
     contract = Stock('MSFT', 'SMART', 'USD')
-    order_size = 100
-    ibkr = IBKRInterface(contract, order_size)  # Initialize broker connection
-    #ibkr = HistoricalDataInterface("sampledata/MSFT_5d_1m_intraday_last_week.csv", order_size)  # Initialize broker connection
+    order_size = 10000
+    #ibkr = IBKRInterface(contract, order_size)  # Initialize broker connection
+    ibkr = HistoricalDataInterface("sampledata/BTC_3mo_15m_intraday.csv", order_size)  # Initialize broker connection
     #ibkr = HistoricalDataInterface("sampledata/msft_intraday_data.csv", order_size)  # Initialize broker connection
 
     #strategy = RSIMACDStrategy(data=[], rsi_period=14, overbought=70, oversold=30, macd_fast=12, macd_slow=26, macd_signal=9)
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     session_file = f"sessions/trades_{timestamp}.csv"
     os.makedirs('sessions', exist_ok=True)
 
-    run_trading(strategy, ibkr, session_file, display_chart=True, logging_prices=True, logging_trades=True, stop_loss_percent=0.02, profit_taker_percent=0.08)
+    run_trading(strategy, ibkr, session_file, display_chart=True, logging_prices=False, logging_trades=True, stop_loss_percent=0.02, profit_taker_percent=0.08)
 
     # Plot P&L distribution
     plot_pnl_distribution(session_file)

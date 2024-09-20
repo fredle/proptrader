@@ -1,9 +1,26 @@
 import pandas as pd
+import glob
 
 class HistoricalDataInterface:
     def __init__(self, csv_file, order_size, spread=0.0001):
         # Load historical data from CSV
-        self.data = pd.read_csv(csv_file)
+
+        data = pd.DataFrame()
+
+        file_list = glob.glob(csv_file)
+
+        print(file_list)
+
+        # Initialize an empty DataFrame
+        data = pd.DataFrame()
+
+        # Loop through each file and concatenate its data to the 'data' dataframe
+        for file in file_list:
+            df = pd.read_csv(file, parse_dates=['Datetime'], index_col='Datetime')
+            data = pd.concat([data, df])
+
+        self.data = data
+        #self.data = pd.read_csv(csv_file)
         self.current_index = 0
         self.order_size = order_size
         self.last_row = None
@@ -19,8 +36,10 @@ class HistoricalDataInterface:
         self.last_row = row
 
         # Return Close, High, and Low as a dictionary
-        return {'Last Price': row['Close'], 'High': row['High'], 'Low': row['Low']}
-    
+        return {'Close': row['Close'], 'High': row['High'], 'Low': row['Low'], 'Volume': row['Volume']}
+        #print(row)
+        #return row
+
     def place_order(self, action):
         # Simulate placing an order with spread included
         execution_price = None
