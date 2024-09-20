@@ -207,7 +207,7 @@ def run_trading(strategy, ibkr, session_file, balance=100000, display_chart=True
 
 if __name__ == "__main__":
     #contract = Forex('GBPUSD')
-    contract = Stock('AAPL', 'SMART', 'USD')
+    contract = Stock('MSFT', 'SMART', 'USD')
     order_size = 100
     ibkr = IBKRInterface(contract, order_size)  # Initialize broker connection
     #ibkr = HistoricalDataInterface("sampledata/MSFT_5d_1m_intraday_last_week.csv", order_size)  # Initialize broker connection

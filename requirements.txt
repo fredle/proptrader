@@ -1,3 +1,8 @@
 ib-insync
 scikit-learn
 joblib
+xgboost
+tensorflow
+setuptools
+pandas
+matplotlib
